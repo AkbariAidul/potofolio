@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aidul Akbari - IT Student</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <style>
+        /* Beautiful Dracula Theme & Custom Animations */
+        :root {
+            /* Dracula Colors */
+            --background: #282A36;
+            --current-line: #44475A;
+            --selection: #44475A;
+            --foreground: #F8F8F2;
+            --comment: #6272A4;
+            --cyan: #8BE9FD;
+            --green: #50FA7B;
+            --orange: #FFB86C;
+            --pink: #FF79C6;
+            --purple: #BD93F9;
+            --red: #FF5555;
+            --yellow: #F1FA8C;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background); /* Dracula background */
+            color: var(--foreground); /* Default text color */
+            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
+            position: relative; /* For particles */
+        }
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Fira Code', monospace;
+            color: var(--foreground); /* Heading color */
+        }
+
+        /* Header / Navbar */
+        header {
+            background-color: rgba(40, 42, 54, 0.9); /* Slightly transparent Dracula background */
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--current-line); /* Subtle border */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .nav-link {
+            color: var(--foreground);
+            position: relative;
+            padding: 0.5rem 0.75rem;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--cyan);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        .nav-link:hover {
+            color: var(--cyan); /* Dracula Cyan for links */
+        }
+        .nav-link.active {
+            color: var(--green); /* Dracula Green for active state */
+            font-weight: 600;
+        }
+        .text-logo-brackets {
+            color: var(--cyan); /* Cyan bracket */
+        }
+        .text-logo-content {
+            color: var(--foreground); /* Foreground text */
+        }
+
+        /* Hero Section */
+        #hero {
+            background-color: var(--background);
+            border-bottom: 1px solid var(--current-line);
+            overflow: hidden; /* Ensure particles stay within bounds */
+        }
+        .hero-title {
+            color: var(--foreground);
+        }
+        .hero-subtitle {
+            color: var(--foreground);
+        }
+        .text-accent-blue {
+            color: var(--cyan); /* Dracula Cyan */
+        }
+        .text-accent-green {
+            color: var(--green); /* Dracula Green */
+        }
+        .btn-primary {
+            background-color: var(--pink); /* Dracula Pink */
+            color: var(--background); /* Dark text on bright button */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #FF66B3; /* Slightly darker pink on hover */
+            transform: translateY(-3px) scale(1.05); /* More pronounced hover */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+        }
+        .btn-secondary {
+            border: 1px solid var(--pink);
+            color: var(--pink);
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: var(--pink);
+            color: var(--background);
+            transform: translateY(-3px) scale(1.05); /* More pronounced hover */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Section Backgrounds */
+        section {
+            background-color: var(--background);
+            border-bottom: 1px solid var(--current-line);
+            position: relative; /* Crucial for absolute positioning of background */
+            overflow: hidden; /* Hide overflowing background animation */
+        }
+        section:nth-child(even) { /* Alternate sections */
+            background-color: #363A47; /* Slightly lighter Dracula gray */
+        }
+
+        /* Card Elements (e.g., Skills, Experience, Portfolio) */
+        .card {
+            background-color: var(--current-line); /* Dracula current line background */
+            border: 1px solid #55576B; /* Subtle border */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-8px) scale(1.02); /* More pronounced lift */
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+            border-color: var(--purple); /* Highlight border on hover */
+        }
+        .card-icon {
+            color: var(--foreground); /* Default icon color */
+        }
+        .skill-icon img {
+            filter: grayscale(100%) brightness(1.5); /* Desaturate and lighten for Dracula feel */
+            transition: filter 0.3s ease;
+        }
+        .skill-icon img:hover {
+            filter: grayscale(0%) brightness(1); /* Color on hover */
+        }
+
+        /* Portfolio Overlay */
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .portfolio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(68, 71, 90, 0.95); /* Dracula current line with transparency */
+            color: var(--foreground);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+            text-align: center;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            transform: translateY(100%); /* Start below, slide up */
+            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+        }
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .portfolio-overlay h3 {
+            color: var(--foreground);
+            margin-bottom: 0.5rem; /* Add some space */
+        }
+        .portfolio-overlay p {
+            font-size: 0.9rem; /* Smaller description text */
+            margin-bottom: 1rem;
+            color: var(--comment); /* Comment color for description */
+        }
+
+
+        /* Form Elements in Contact */
+        form {
+            background-color: #363A47; /* Form background */
+            border: 1px solid #55576B;
+            border-radius: 0.5rem; /* Consistent border radius */
+        }
+        input, textarea {
+            background-color: var(--current-line); /* Input field background */
+            border: 1px solid #666986;
+            color: var(--foreground);
+            padding: 0.75rem 1rem; /* More padding */
+            border-radius: 0.25rem;
+        }
+        input:focus, textarea:focus {
+            border-color: var(--purple); /* Dracula Purple highlight on focus */
+            box-shadow: 0 0 0 2px rgba(189, 147, 249, 0.3); /* Softer focus shadow */
+            outline: none; /* Remove default outline */
+        }
+        label {
+            color: var(--foreground);
+            font-family: 'Fira Code', monospace; /* Monospace for labels */
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--background);
+            border-top: 1px solid var(--current-line);
+            color: var(--comment); /* Dimmer text for footer */
+        }
+        footer a {
+            color: var(--cyan);
+        }
+        footer a:hover {
+            color: var(--green);
+        }
+
+        /* Specific text colors for code elements (Dracula palette) */
+        .text-keyword { color: var(--pink); } /* Pink for keywords */
+        .text-string { color: var(--yellow); } /* Yellow for strings */
+        .text-comment { color: var(--comment); } /* Comment color */
+        .text-variable { color: var(--cyan); } /* Cyan for variables/functions */
+        .text-operator { color: var(--purple); } /* Purple for operators */
+
+        /* Typing Effect Cursor */
+        .typing-effect-title::after, .typing-effect-subtitle::after {
+            content: '|';
+            display: inline-block;
+            animation: blink-caret .75s step-end infinite;
+            color: var(--foreground);
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: currentColor }
+        }
+
+        /* Mobile menu specific styles */
+        @media (max-width: 767px) {
+            .main-nav { display: none; }
+            #mobile-menu { display: flex; }
+            #mobile-menu-items { display: none; }
+            #mobile-menu-items.open {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 65px; /* Adjust based on header height */
+                left: 0;
+                width: 100%;
+                background-color: var(--background);
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+                z-index: 40;
+                padding: 1rem 0;
+                border-bottom: 1px solid var(--current-line);
+            }
+            #mobile-menu-items a {
+                padding: 0.75rem 1.5rem;
+                text-align: center;
+                border-bottom: 1px solid var(--current-line);
+            }
+            #mobile-menu-items a:last-child {
+                border-bottom: none;
+            }
+        }
+        .education-item-content, .experience-item-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .education-item-content img, .experience-item-content img {
+            width: 80px; /* Adjust size as needed */
+            height: 80px; /* Adjust size as needed */
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            border: 1px solid var(--comment); /* Add subtle border to images */
+        }
+        .education-item-text, .experience-item-text {
+            flex-grow: 1;
+        }
+        /* Adjust timeline layout for image integration */
+        .right-timeline .education-item-content {
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+        }
+        .right-timeline .education-item-text {
+            text-align: right;
+        }
+        .left-timeline .education-item-content {
+            flex-direction: row;
+            justify-content: flex-start;
+        }
+        .left-timeline .education-item-text {
+            text-align: left;
+        }
+
+        /* Particle Background for Hero (Simple CSS Circles) */
+        .hero-particles {
+            position: absolute; /* Changed to absolute to stay within hero */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allow clicks through particles */
+            z-index: 0; /* Behind content, but above the grid pattern */
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: rgba(var(--cyan-rgb), 0.3); /* Example: cyan with transparency */
+            border-radius: 50%;
+            animation: float-up-fade 10s infinite ease-in-out; /* Basic animation */
+        }
+        @keyframes float-up-fade {
+            0% { transform: translateY(0) translateX(0) scale(0.5); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) translateX(var(--random-x, 50px)) scale(1.2); opacity: 0; } /* Added random-x */
+        }
+
+        /* Dynamic Background for Sections */
+        .section-background-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allow clicks through */
+            z-index: 0; /* Ensure it's behind content */
+            opacity: 0.05; /* Very subtle, adjust as needed */
+            background-image:
+                linear-gradient(to right, var(--current-line) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--current-line) 1px, transparent 1px);
+            background-size: 50px 50px; /* Adjust grid size as needed */
+            animation: moveGrid 60s linear infinite; /* Slow, continuous movement */
+        }
+
+        /* Keyframe for Grid Movement */
+        @keyframes moveGrid {
+            from { background-position: 0 0; }
+            to { background-position: 500px 500px; } /* Moves 500px diagonally */
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <header class="shadow-md fixed top-0 left-0 w-full z-50 opacity-0 transform -translate-y-full" id="main-header">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#hero" class="text-2xl font-bold font-heading">
+                <span class="text-logo-brackets">{</span><span class="text-logo-content">nama.dev</span><span class="text-logo-brackets">}</span> </a>
+            <div class="hidden md:flex space-x-2 main-nav">
+                <a href="#about" class="nav-link px-3 py-2">Tentang</a>
+                <a href="#education" class="nav-link px-3 py-2">Pendidikan</a>
+                <a href="#experience" class="nav-link px-3 py-2">Pengalaman</a>
+                <a href="#skills" class="nav-link px-3 py-2">Keahlian</a>
+                <a href="#portfolio" class="nav-link px-3 py-2">Portofolio</a>
+                <a href="#contact" class="nav-link px-3 py-2">Kontak</a>
+            </div>
+            <button id="mobile-menu" class="md:hidden p-2 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu-items" class="md:hidden">
+            <a href="#about" class="nav-link block">Tentang</a>
+            <a href="#education" class="nav-link block">Pendidikan</a>
+            <a href="#experience" class="nav-link block">Pengalaman</a>
+            <a href="#skills" class="nav-link block">Keahlian</a>
+            <a href="#portfolio" class="nav-link block">Portofolio</a>
+            <a href="#contact" class="nav-link block">Kontak</a>
+        </div>
+    </header>
+
+    <section id="hero" class="relative h-screen flex items-center justify-center text-center">
+        <div class="hero-particles" id="hero-particles-container"></div>
+        <div class="section-background-animation"></div>
+
+        <div class="z-10 p-8 max-w-4xl" id="hero-content">
+            <p class="text-xl md:text-2xl mb-4 font-mono text-accent-green typing-effect-subtitle">
+                <span class="text-comment">// Selamat Datang di Portofolio Saya</span>
+            </p>
+            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4 font-heading hero-title">
+                <span class="text-keyword">const</span> <span class="text-variable">nama</span> <span class="text-operator">=</span> <span class="text-string">'Aidul Akbari'</span>;
+            </h1>
+            <p class="mt-2 text-xl md:text-2xl font-mono hero-subtitle">
+                Seorang <span class="text-accent-blue">Mahasiswa Program Study D3 Teknik Informatika</span> <span class="text-accent-green">di Politeknik Hasnur</span>.
+            </p>
+            <div class="mt-10 space-x-4">
+                <a href="#portfolio" class="btn-primary inline-block py-3 px-8 rounded-full gsap-hero-btn">
+                    <i class="fas fa-terminal mr-2"></i> Lihat Proyek
+                </a>
+                <a href="#contact" class="btn-secondary inline-block py-3 px-8 rounded-full gsap-hero-btn">
+                    <i class="fas fa-envelope mr-2"></i> Hubungi Saya
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-20">
+        <div class="section-background-animation"></div> <div class="container mx-auto px-6 relative z-10"> <h2 class="text-3xl font-bold mb-8 text-center md:text-left font-heading gsap-section-title">
+                <span class="text-comment">// Tentang Saya</span>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="rounded-lg overflow-hidden card shadow-lg gsap-image">
+                    <img src="asset/AIDUL AI.png" alt="Profil Aidul Akbari" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <p class="text-lg leading-relaxed mb-6 gsap-text">
+                        Sebagai mahasiswa Teknik Informatika, <span class="text-accent-blue">saya memiliki passion kuat untuk menjadi seorang Software Engineer.</span> Saya selalu tertarik pada bagaimana teknologi dapat memecahkan masalah kompleks dan menciptakan solusi inovatif yang bermanfaat bagi banyak orang. Antusiasme saya mendorong saya untuk terus belajar dan mendalami berbagai aspek pengembangan perangkat lunak.
+                    </p>
+                    <p class="text-lg leading-relaxed mb-6 gsap-text">
+                        Saya berfokus pada pembangunan aplikasi yang tidak hanya fungsional tetapi juga efisien dan intuitif. <span class="text-variable">Setiap baris kode yang saya tulis adalah kesempatan untuk berkreasi</span> dan <span class="text-variable">memberikan dampak positif.</span> Saya percaya bahwa dengan dedikasi dan pembelajaran berkelanjutan, saya dapat berkontribusi signifikan dalam industri perangkat lunak.
+                    </p>
+                    <p class="text-lg leading-relaxed gsap-text">
+                        Saya selalu terbuka untuk mempelajari teknologi baru dan menghadapi tantangan yang mengasah kemampuan saya. Saya berharap dapat menerapkan pengetahuan dan keterampilan saya<span class="text-keyword"> untuk membangun sistem yang tangguh dan memberikan pengalaman pengguna yang luar biasa, sejalan dengan cita-cita saya untuk menjadi seorang Software Engineer yang kompeten dan berdaya saing.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education" class="py-20">
+        <div class="section-background-animation"></div> <div class="container mx-auto px-6 text-center relative z-10"> <h2 class="text-3xl font-bold mb-12 font-heading gsap-section-title">
+                <span class="text-keyword">function</span> <span class="text-accent-blue">getRiwayatPendidikan</span>() {
+            </h2>
+            <div class="relative max-w-2xl mx-auto">
+                <div class="absolute h-full border-l-2 border-accent-blue left-1/2 transform -translate-x-1/2 gsap-timeline-line"></div>
+
+                <div class="mb-8 flex justify-between items-center w-full right-timeline gsap-timeline-item">
+                    <div class="order-1 w-5/12"></div>
+                    <div class="z-10 flex items-center order-1 bg-accent-blue shadow-xl w-8 h-8 rounded-full">
+                        <i class="fas fa-graduation-cap text-sm text-gray-900 mx-auto"></i>
+                    </div>
+                    <div class="order-1 card w-5/12 px-6 py-4 text-left">
+                        <div class="education-item-content">
+                            <img src="asset/Logo_Politeknik_Hasnur.png" alt="Logo Politeknik Hasnur" class="w-20 h-20 object-cover">
+                            <div class="education-item-text">
+                                <h3 class="mb-1 font-bold text-xl font-heading text-variable">Politeknik Hasnur</h3>
+                                <p class="text-sm font-mono text-accent-green">D3 Teknik Informatika</p>
+                                <p class="text-sm text-gray-400">`2024` - `Sekarang`</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-8 flex justify-between flex-row-reverse items-center w-full left-timeline gsap-timeline-item">
+                    <div class="order-1 w-5/12"></div>
+                    <div class="z-10 flex items-center order-1 bg-accent-blue shadow-xl w-8 h-8 rounded-full">
+                        <i class="fas fa-laptop-code text-sm text-gray-900 mx-auto"></i>
+                    </div>
+                    <div class="order-1 card w-5/12 px-6 py-4 text-right">
+                        <div class="education-item-content">
+                            <div class="education-item-text">
+                                <h3 class="mb-1 font-bold text-xl font-heading text-variable">MAS Ulumul Qur`an</h3>
+                                <p class="text-sm font-mono text-accent-green">Keagamaan Islam</p>
+                                <p class="text-sm text-gray-400">`2022` - `2024`</p>
+                            </div>
+                            <img src="asset/LOGO MAHAD.jpeg" alt="Logo MAS Ulumul Qur`an" class="w-20 h-20 object-cover">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-8 flex justify-between items-center w-full right-timeline gsap-timeline-item">
+                    <div class="order-1 w-5/12"></div>
+                    <div class="z-10 flex items-center order-1 bg-accent-blue shadow-xl w-8 h-8 rounded-full">
+                        <i class="fas fa-book-reader text-sm text-gray-900 mx-auto"></i>
+                    </div>
+                    <div class="order-1 card w-5/12 px-6 py-4 text-left">
+                        <div class="education-item-content">
+                            <img src="asset/LOGO MAHAD.jpeg" alt="Logo MAHAD" class="w-20 h-20 object-cover">
+                            <div class="education-item-text">
+                                <h3 class="mb-1 font-bold text-xl font-heading text-variable">MTS Ulumul Qur`an</h3>
+                                <p class="text-sm text-gray-400">`2018` - `2022`</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-8 flex justify-between flex-row-reverse items-center w-full left-timeline gsap-timeline-item">
+                    <div class="order-1 w-5/12"></div>
+                    <div class="z-10 flex items-center order-1 bg-accent-blue shadow-xl w-8 h-8 rounded-full">
+                        <i class="fas fa-brain text-sm text-gray-900 mx-auto"></i>
+                    </div>
+                    <div class="order-1 card w-5/12 px-6 py-4 text-right">
+                        <div class="education-item-content">
+                            <div class="education-item-text">
+                                <h3 class="mb-1 font-bold text-xl font-heading text-variable">SD Negeri Karang Indah</h3>
+                                <p class="text-sm text-gray-400">`2012` - `2018`</p>
+                            </div>
+                            <img src="asset/Logo SD.jfif" alt="Logo SD Negeri Karang Indah" class="w-20 h-20 object-cover">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-8 flex justify-between items-center w-full right-timeline gsap-timeline-item">
+                    <div class="order-1 w-5/12"></div>
+                    <div class="z-10 flex items-center order-1 bg-accent-blue shadow-xl w-8 h-8 rounded-full">
+                        <i class="fas fa-microchip text-sm text-gray-900 mx-auto"></i>
+                    </div>
+                    <div class="order-1 card w-5/12 px-6 py-4 text-left">
+                        <div class="education-item-content">
+                            <img src="asset/logo tk.jfif" alt="Logo SMA IT Unggul">
+                            <div class="education-item-text">
+                                <h3 class="mb-1 font-bold text-xl font-heading text-variable">TK Masyitoh II</h3>
+                                <p class="text-sm text-gray-400">`2010` - `2012`</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="text-3xl font-bold font-heading text-keyword mt-8">}</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="py-20">
+        <div class="section-background-animation"></div> <div class="container mx-auto px-6 relative z-10"> <h2 class="text-3xl font-bold mb-12 text-center md:text-left font-heading gsap-section-title">
+                <span class="text-comment">// My.Pengalaman();</span>
+            </h2>
+
+            <h3 class="text-2xl font-semibold mb-6 mt-10 font-heading gsap-sub-title">
+                <i class="fas fa-trophy text-yellow-400 mr-2"></i> <span class="text-variable">Kompetisi</span>
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card p-6 gsap-experience-item">
+                    <div class="experience-item-content">
+                        <i class="fas fa-trophy text-yellow-400 text-5xl mr-4"></i>
+                        <div class="experience-item-text">
+                            <h4 class="text-xl font-bold mb-1 font-heading text-variable">JUARA II</h4>
+                            <p class="text-sm text-accent-green mb-2 font-mono">`Pidato Bahasa Inggris` | `2024`</p>
+                            <p class="text-md text-gray-300">
+                                <span class="text-comment">// dalam event</span><br>
+                                Gebyar <span class="text-keyword">Ma'had Islam Ulumul Qur'an</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card p-6 gsap-experience-item">
+                    <div class="experience-item-content">
+                        <i class="fas fa-trophy text-yellow-400 text-5xl mr-4"></i>
+                        <div class="experience-item-text">
+                            <h4 class="text-xl font-bold mb-1 font-heading text-variable">JUARA II</h4>
+                            <p class="text-sm text-accent-green mb-2 font-mono">`Pidato Bahasa Inggris` | `2023`</p>
+                            <p class="text-md text-gray-300">
+                                <span class="text-comment">// dalam event</span><br>
+                                Gebyar <span class="text-keyword">Ma'had Islam Ulumul Qur'an</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card p-6 gsap-experience-item">
+                    <div class="experience-item-content">
+                        <i class="fas fa-trophy text-yellow-400 text-5xl mr-4"></i>
+                        <div class="experience-item-text">
+                            <h4 class="text-xl font-bold mb-1 font-heading text-variable">JUARA I</h4>
+                            <p class="text-sm text-accent-green mb-2 font-mono">`Pidato Bahasa Inggris` | `2022`</p>
+                            <p class="text-md text-gray-300">
+                                <span class="text-comment">// dalam event</span><br>
+                                Gebyar <span class="text-keyword">Ma'had Islam Ulumul Qur'an</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card p-6 gsap-experience-item">
+                    <div class="experience-item-content">
+                        <i class="fas fa-trophy text-yellow-400 text-5xl mr-4"></i>
+                        <div class="experience-item-text">
+                            <h4 class="text-xl font-bold mb-1 font-heading text-variable">JUARA III</h4>
+                            <p class="text-sm text-accent-green mb-2 font-mono">`Pidato Bahasa Inggris` | `2020`</p>
+                            <p class="text-md text-gray-300">
+                                <span class="text-comment">// dalam event</span><br>
+                                Gebyar <span class="text-keyword">Ma'had Islam Ulumul Qur'an</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-semibold mb-6 mt-10 font-heading gsap-sub-title">
+                <i class="fas fa-users text-blue-400 mr-2"></i> <span class="text-variable">Organisasi</span>
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card p-6 gsap-experience-item">
+                    <div class="experience-item-content">
+                        <img src="asset/LOGO HIMA TI.png" alt="Logo Komunitas Developer Kampus">
+                        <div class="experience-item-text">
+                            <h4 class="text-xl font-bold mb-1 font-heading text-variable">HIMA TI Polihasnur</h4>
+                            <p class="text-sm text-accent-green mb-2 font-mono">`Staff Divisi Hubungan Eksternal` | <br>`2025` - `Sekarang`</p>
+                            <p class="text-md text-gray-300">
+                                <span class="text-comment">// Tim 6 orang.</span><br>
+                                <span class="text-keyword">Bertanggung jawab </span> <span class="text-keyword">untuk</span> membangun dan memelihara hubungan baik dengan pihak luar organisasi.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card p-6 gsap-experience-item">
+                    <div class="experience-item-content">
+                        <img src="asset/ukm-olahraga.jpg" alt="Logo Open Source Contributor">
+                        <div class="experience-item-text">
+                            <h4 class="text-xl font-bold mb-1 font-heading text-variable">UKM Olahraga</h4>
+                            <p class="text-sm text-accent-green mb-2 font-mono">`Koordinator Divisi Volly` | <br>`2025` - `Sekarang`</p>
+                            <p class="text-md text-gray-300">
+                                <span class="text-comment">// Tim 5 orang.</span><br>
+                                <span class="text-keyword">Mengkoordinasi</span> dan <span class="text-string"></span>, Manajemen operasional tim organisasi.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card p-6 gsap-experience-item">
+                    <div class="experience-item-content">
+                        <img src="asset/LOGO MAHAD.jpeg" alt="Logo Google Developer Student Clubs">
+                        <div class="experience-item-text">
+                            <h4 class="text-xl font-bold mb-1 font-heading text-variable">OSIM MA Ulumul Qur'an</h4>
+                            <p class="text-sm text-accent-green mb-2 font-mono">`SekBid Keamanan & Ketertiban` | <br>`2022` - `2023`</p>
+                            <p class="text-md text-gray-300">
+                                <span class="text-comment">// Tim 6 orang.</span><br>
+                                <span class="text-keyword">Menjaga</span> Keamanan & Ketertiban di Lingkungan Madrasah dan Organisasi.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-semibold mb-6 mt-10 font-heading gsap-sub-title">
+                <i class="fas fa-users text-blue-400 mr-2"></i> <span class="text-variable">Kepanitiaan</span>
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card p-6 gsap-experience-item">
+                    <h4 class="text-xl font-bold mb-2 font-heading text-variable">Campus Smash Fest 2025</h4>
+                    <p class="text-sm text-accent-green mb-2 font-mono">`Koordinator Divisi Acara` | `2025`</p>
+                    <p class="text-md text-gray-300">
+                        <span class="text-comment">// Tim 8 orang.</span><br>
+                        <span class="text-keyword">Mengkoordinasi</span> pembuatan rangkaian, dan konsep acara.
+                    </p>
+                </div>
+                <div class="card p-6 gsap-experience-item">
+                    <h4 class="text-xl font-bold mb-2 font-heading text-variable">Admin Skill Boost</h4>
+                    <p class="text-sm text-accent-green mb-2 font-mono">`Anggota Divisi Acara` | `2025`</p>
+                    <p class="text-md text-gray-300">
+                        <span class="text-comment">// Tim 5 orang.</span><br>
+                        <span class="text-keyword">Membantu</span> dalam penyusunan <span class="text-variable">konsep acara.</span>
+                    </p>
+                </div>
+                <div class="card p-6 gsap-experience-item">
+                    <h4 class="text-xl font-bold mb-2 font-heading text-variable">Pemilihan Ketum & Waketum HIMA TI 2025</h4>
+                    <p class="text-sm text-accent-green mb-2 font-mono">`Koordinator Divisi Acara` | `2025`</p>
+                    <p class="text-md text-gray-300">
+                        <span class="text-comment">// Tim 9 orang.</span><br>
+                        <span class="text-keyword">Mengkoordinasi</span> pembuatan rangkaian, dan konsep acara.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="py-20">
+        <div class="section-background-animation"></div> <div class="container mx-auto px-6 text-center relative z-10"> <h2 class="text-3xl font-bold mb-12 font-heading gsap-section-title">
+                <span class="text-keyword">const</span> <span class="text-variable">mySkills & Tools</span> <span class="text-operator">=</span> <span class="text-logo-brackets">[</span>
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
+                <div class="card p-6 gsap-skill-item">
+                    <i class="fas fa-file-word text-blue-600 text-5xl mb-4 card-icon"></i>
+                    <h3 class="text-xl font-semibold font-heading text-variable">Word</h3>
+                </div>
+                <div class="card p-6 gsap-skill-item">
+                    <i class="fas fa-file-excel text-green-600 text-5xl mb-4 card-icon"></i>
+                    <h3 class="text-xl font-semibold font-heading text-variable">Excel</h3>
+                </div>
+                <div class="card p-6 gsap-skill-item">
+                    <i class="fas fa-file-powerpoint text-orange-500 text-5xl mb-4 card-icon"></i>
+                    <h3 class="text-xl font-semibold font-heading text-variable">PowerPoint</h3>
+                </div>
+
+                <div class="card p-6 gsap-skill-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png" alt="Notion" class="h-12 w-12 mx-auto mb-4 skill-icon">
+                    <h3 class="text-xl font-semibold font-heading text-variable">Notion</h3>
+                </div>
+                <div class="card p-6 gsap-skill-item">
+                    <i class="fas fa-calendar-alt text-blue-400 text-5xl mb-4 card-icon"></i>
+                    <h3 class="text-xl font-semibold font-heading text-variable">Calendar</h3>
+                </div>
+                <div class="card p-6 gsap-skill-item">
+                    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/brave.svg" alt="Brave Browser" class="h-12 w-12 mx-auto mb-4 skill-icon">
+                    <h3 class="text-xl font-semibold font-heading text-variable">Brave</h3>
+                </div>
+                <div class="card p-6 gsap-skill-item">
+                    <img src="https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg" alt="Tailwind CSS" class="h-12 w-12 mx-auto mb-4 skill-icon">
+                    <h3 class="text-xl font-semibold font-heading text-variable">Tailwind CSS</h3>
+                </div>
+                <div class="card p-6 gsap-skill-item">
+                    <i class="fab fa-bootstrap text-purple-600 text-5xl mb-4 card-icon"></i>
+                    <h3 class="text-xl font-semibold font-heading text-variable">Bootstrap</h3>
+                </div>
+                <div class="card p-6 gsap-skill-item">
+                    <i class="fab fa-js-square text-yellow-400 text-5xl mb-4 card-icon"></i>
+                    <h3 class="text-xl font-semibold font-heading text-variable">jQuery</h3>
+                </div>
+                <div class="card p-6 gsap-skill-item">
+                    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/laravel.svg" alt="Laravel" class="h-12 w-12 mx-auto mb-4 skill-icon">
+                    <h3 class="text-xl font-semibold font-heading text-variable">Laravel</h3>
+                </div>
+                <div class="card p-6 gsap-skill-item">
+                    <i class="fab fa-php text-indigo-600 text-5xl mb-4 card-icon"></i>
+                    <h3 class="text-xl font-semibold font-heading text-variable">PHP</h3>
+                </div>
+                <div class="card p-6 gsap-skill-item">
+                    <i class="fab fa-html5 text-orange-500 text-5xl mb-4 card-icon"></i>
+                    <h3 class="text-xl font-semibold font-heading text-variable">HTML5</h3>
+                </div>
+                <div class="card p-6 gsap-skill-item">
+                    <i class="fab fa-git-alt text-red-600 text-5xl mb-4 card-icon"></i>
+                    <h3 class="text-xl font-semibold font-heading text-variable">Git</h3>
+                </div>
+                <div class="card p-6 gsap-skill-item">
+                    <i class="fab fa-github text-white text-5xl mb-4 card-icon"></i>
+                    <h3 class="text-xl font-semibold font-heading text-variable">GitHub</h3>
+                </div>
+                <div class="card p-6 gsap-skill-item">
+                    <i class="fab fa-figma text-purple-500 text-5xl mb-4 card-icon"></i>
+                    <h3 class="text-xl font-semibold font-heading text-variable">Figma</h3>
+                </div>
+                <div class="card p-6 gsap-skill-item">
+                    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/canva.svg" alt="Canva" class="h-12 w-12 mx-auto mb-4 skill-icon">
+                    <h3 class="text-xl font-semibold font-heading text-variable">Canva</h3>
+                </div>
+                <div class="card p-6 gsap-skill-item">
+                    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/visualstudiocode.svg" alt="VS Code" class="h-12 w-12 mx-auto mb-4 skill-icon">
+                    <h3 class="text-xl font-semibold font-heading text-variable">VS Code</h3>
+                </div>
+                <div class="card p-6 gsap-skill-item">
+                    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/xampp.svg" alt="XAMPP" class="h-12 w-12 mx-auto mb-4 skill-icon">
+                    <h3 class="text-xl font-semibold font-heading text-variable">XAMPP</h3>
+                </div>
+            </div>
+            <h2 class="text-3xl font-bold font-heading text-logo-brackets mt-8">];</h2>
+        </div>
+    </section>
+
+    <section id="portfolio" class="py-20">
+        <div class="section-background-animation"></div> <div class="container mx-auto px-6 text-center relative z-10"> <h2 class="text-3xl font-bold mb-12 font-heading gsap-section-title">
+                <span class="text-variable">portfolio</span>.<span class="text-accent-blue">getProjects</span>();
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <div class="portfolio-item gsap-portfolio-item">
+                    <img src="asset/portfolio1.jpg" alt="Project 1" class="w-full h-56 object-cover">
+                    <div class="portfolio-overlay">
+                        <h3 class="text-xl font-bold mb-2">Project Satu</h3>
+                        <p class="mb-4 text-comment">Deskripsi singkat proyek pertama Anda di sini. Jelaskan teknologi atau fitur utama.</p>
+                        <a href="https://github.com/namaanda/project1" target="_blank" class="btn-primary py-2 px-6 rounded-full flex items-center gap-2">
+                            <i class="fab fa-github"></i> Lihat di GitHub
+                        </a>
+                    </div>
+                </div>
+                <div class="portfolio-item gsap-portfolio-item">
+                    <img src="asset/portfolio2.jpg" alt="Project 2" class="w-full h-56 object-cover">
+                    <div class="portfolio-overlay">
+                        <h3 class="text-xl font-bold mb-2">Project Dua</h3>
+                        <p class="mb-4 text-comment">Deskripsi singkat proyek kedua Anda di sini. Jelaskan teknologi atau fitur utama.</p>
+                        <a href="https://github.com/namaanda/project2" target="_blank" class="btn-primary py-2 px-6 rounded-full flex items-center gap-2">
+                            <i class="fab fa-github"></i> Lihat di GitHub
+                        </a>
+                    </div>
+                </div>
+                <div class="portfolio-item gsap-portfolio-item">
+                    <img src="asset/portfolio3.jpg" alt="Project 3" class="w-full h-56 object-cover">
+                    <div class="portfolio-overlay">
+                        <h3 class="text-xl font-bold mb-2">Project Tiga</h3>
+                        <p class="mb-4 text-comment">Deskripsi singkat proyek ketiga Anda di sini. Jelaskan teknologi atau fitur utama.</p>
+                        <a href="https://github.com/namaanda/project3" target="_blank" class="btn-primary py-2 px-6 rounded-full flex items-center gap-2">
+                            <i class="fab fa-github"></i> Lihat di GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12">
+                <a href="https://github.com/namaanda?tab=repositories" target="_blank" class="btn-secondary inline-block py-3 px-8 rounded-full flex items-center gap-2">
+                    <i class="fab fa-github text-2xl"></i>
+                    <span>Lihat Semua Proyek di GitHub Saya</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-20">
+        <div class="section-background-animation"></div> <div class="container mx-auto px-6 text-center relative z-10"> <h2 class="text-3xl font-bold mb-12 font-heading gsap-section-title">
+                <span class="text-variable">console</span>.<span class="text-accent-blue">log</span>(<span class="text-string">'Hello World!'</span>);
+            </h2>
+            <p class="text-lg mb-8 gsap-text text-gray-300">
+                Apakah Anda punya ide brilian, pertanyaan, atau ingin sekadar berdiskusi tentang teknologi? Jangan ragu untuk terhubung! Saya selalu terbuka untuk kolaborasi dan peluang baru.
+            </p>
+            <div class="flex justify-center space-x-6 mb-8 flex-wrap gap-4 gsap-contact-links">
+                <a href="mailto:akbariaidul@gmail.com" class="text-accent-blue hover:text-accent-green transition duration-300 text-lg flex items-center card p-3 rounded-lg">
+                    <i class="fas fa-envelope mr-2"></i> Contact Me
+                </a>
+                <a href="https://linkedin.com/in/aidulakbari" target="_blank" class="text-accent-blue hover:text-accent-green transition duration-300 text-lg flex items-center card p-3 rounded-lg">
+                    <i class="fab fa-linkedin mr-2"></i> Let's Connect
+                </a>
+                <a href="https://github.com/akbariaidul" target="_blank" class="text-accent-blue hover:text-accent-green transition duration-300 text-lg flex items-center card p-3 rounded-lg">
+                    <i class="fab fa-github mr-2"></i> My GitHub
+                </a>
+            </div>
+            <form id="contactForm" class="max-w-lg mx-auto p-8 rounded-lg shadow-xl gsap-contact-form">
+                <p class="text-lg text-gray-300 mb-6 font-mono text-center"><span class="text-keyword">if</span> (<span class="text-variable">pesan</span>.<span class="text-accent-blue">length</span> <span class="text-operator">></span> <span class="text-string">0</span>) { <span class="text-comment">// Kirim Pesan</span> }</p>
+                <div class="mb-4 text-left">
+                    <label for="name" class="block text-sm font-bold mb-2">Nama Anda:</label>
+                    <input type="text" id="name" name="name" class="shadow appearance-none rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline" placeholder="Masukkan nama lengkap Anda" required>
+                </div>
+                <div class="mb-4 text-left">
+                    <label for="email" class="block text-sm font-bold mb-2">Email Anda:</label>
+                    <input type="email" id="email" name="email" class="shadow appearance-none rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline" placeholder="contoh@domain.com" required>
+                </div>
+                <div class="mb-6 text-left">
+                    <label for="subject" class="block text-sm font-bold mb-2">Subjek:</label>
+                    <input type="text" id="subject" name="subject" class="shadow appearance-none rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline" placeholder="Judul singkat pesan Anda">
+                </div>
+                <div class="mb-6 text-left">
+                    <label for="message" class="block text-sm font-bold mb-2">Pesan Anda:</label>
+                    <textarea id="message" name="message" rows="5" class="shadow appearance-none rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline" placeholder="Tuliskan pesan Anda di sini..." required></textarea>
+                </div>
+                <div class="flex items-center justify-center">
+                    <button type="submit" class="btn-primary py-3 px-6 rounded-full focus:outline-none focus:shadow-outline">
+                        <i class="fas fa-paper-plane mr-2"></i> Kirim Pesan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer class="py-8 text-center opacity-100" id="main-footer">
+        <div class="container mx-auto px-6">
+            <p>&copy; <span id="current-year"></span> <span class="text-variable">akbariAidul()</span>.<span class="text-accent-blue">AllRightsReserved</span>;</p>
+            <div class="mt-4 flex justify-center space-x-4 flex-wrap gap-2">
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            // Smooth scrolling for navigation links
+            $('a.nav-link').on('click', function(event) {
+                if (this.hash !== "") {
+                    event.preventDefault();
+                    var hash = this.hash;
+                    // Close mobile menu if open
+                    if ($('#mobile-menu-items').hasClass('open')) {
+                        $('#mobile-menu-items').removeClass('open');
+                    }
+
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top - $('header').outerHeight()
+                    }, 800, function(){
+                        // Add hash to URL after scroll completes
+                        window.location.hash = hash;
+                    });
+                }
+            });
+
+            // Scrollspy - Highlight active nav link on scroll
+            $(window).scroll(function() {
+                var scrollPos = $(document).scrollTop();
+                $('section').each(function() {
+                    var currSection = $(this);
+                    // Adjust sectionTop to account for fixed header height
+                    var sectionTop = currSection.offset().top - $('header').outerHeight() - 1;
+                    var sectionBottom = sectionTop + currSection.outerHeight();
+
+                    if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
+                        $('nav a.nav-link').removeClass('active');
+                        $('nav a.nav-link[href="#' + currSection.attr('id') + '"]').addClass('active');
+                    } else {
+                        $('nav a.nav-link[href="#' + currSection.attr('id') + '"]').removeClass('active');
+                    }
+                });
+            });
+
+            // Mobile menu toggle
+            $('#mobile-menu').on('click', function() {
+                $('#mobile-menu-items').toggleClass('open');
+            });
+
+            // Set current year in footer
+            $('#current-year').text(new Date().getFullYear());
+
+            // Handle form submission
+            $('#contactForm').on('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                const name = $('#name').val();
+                const email = $('#email').val();
+                const subject = $('#subject').val();
+                const message = $('#message').val();
+
+                // Simple validation
+                if (!name || !email || !message) {
+                    alert('Please fill in all required fields (Name, Email, Message).');
+                    return;
+                }
+
+                // Construct mailto link
+                const mailtoLink = `mailto:akbariaidul@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
+
+                // Open default email client
+                window.location.href = mailtoLink;
+
+                // Optionally, clear the form after submission attempt
+                $('#contactForm')[0].reset();
+                alert('Your message is ready to be sent via your email client.');
+            });
+        });
+
+        // ===================================
+        // GSAP Animations (GreenSock Animation Platform)
+        // ===================================
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Initial Header & Footer Animation
+        gsap.from("#main-header", {
+            yPercent: -100,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            delay: 0.2 // Delay slightly after page load
+        });
+        gsap.from("#main-footer", {
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: "body",
+                start: "bottom bottom", // Trigger when bottom of body hits bottom of viewport
+                end: "bottom 95%",    // Animation completes when bottom of body is 95% from top
+                scrub: true,
+                toggleActions: "play none none reverse"
+            }
+        });
+
+
+        // Typing effect for Hero Title and Subtitle
+        const heroTitleElement = document.querySelector('.hero-title');
+        const heroSubtitleElements = document.querySelectorAll('.hero-subtitle'); // Select all subtitles
+        const heroCommentElement = document.querySelector('.typing-effect-subtitle .text-comment'); // Select the comment part
+        const heroContent = document.getElementById('hero-content');
+
+        // Initially hide hero content
+        gsap.set(heroContent, { opacity: 0 });
+
+        if (heroTitleElement && heroSubtitleElements.length > 0 && heroContent) {
+            const originalCommentText = heroCommentElement ? heroCommentElement.textContent : '';
+            if (heroCommentElement) heroCommentElement.textContent = ''; // Clear comment text initially
+
+            const originalTitleText = heroTitleElement.textContent;
+            heroTitleElement.textContent = ''; // Clear title text initially
+
+            const originalSubtitleText = heroSubtitleElements[1] ? heroSubtitleElements[1].textContent : ''; // Get the second subtitle
+            if (heroSubtitleElements[1]) heroSubtitleElements[1].textContent = ''; // Clear second subtitle text initially
+
+            gsap.to(heroContent, { opacity: 1, duration: 0.5, delay: 0.5 }); // Fade in hero content container
+
+            let tlHero = gsap.timeline({ delay: 0.5 }); // Start animation after header loads
+
+            // Animate comment first
+            if (heroCommentElement) {
+                tlHero.from(heroCommentElement, {
+                    opacity: 0,
+                    onComplete: () => {
+                        let charIndex = 0;
+                        const typingInterval = setInterval(() => {
+                            heroCommentElement.textContent += originalCommentText.charAt(charIndex);
+                            charIndex++;
+                            if (charIndex === originalCommentText.length) {
+                                clearInterval(typingInterval);
+                            }
+                        }, 30); // Faster typing for comment
+                    }
+                })
+                .to({}, {duration: originalCommentText.length * 0.03}); // Ensure enough time for comment typing
+            }
+
+            // Title typing
+            tlHero.from(heroTitleElement, {
+                opacity: 0,
+                onComplete: () => {
+                    let charIndex = 0;
+                    const typingInterval = setInterval(() => {
+                        heroTitleElement.textContent += originalTitleText.charAt(charIndex);
+                        charIndex++;
+                        if (charIndex === originalTitleText.length) {
+                            clearInterval(typingInterval);
+                        }
+                    }, 50); // typing speed
+                }
+            }, "+=0.2") // Start title typing slightly after comment finishes
+            .to({}, {duration: originalTitleText.length * 0.05}); // Ensure enough time for title typing
+
+            // Second subtitle typing
+            if (heroSubtitleElements[1]) {
+                tlHero.from(heroSubtitleElements[1], {
+                    opacity: 0,
+                    onComplete: () => {
+                        let charIndex = 0;
+                        const typingInterval = setInterval(() => {
+                            heroSubtitleElements[1].textContent += originalSubtitleText.charAt(charIndex);
+                            charIndex++;
+                            if (charIndex === originalSubtitleText.length) {
+                                clearInterval(typingInterval);
+                            }
+                        }, 40); // typing speed
+                    }
+                }, "<0.2") // Overlap slightly with previous animation
+                .to({}, {duration: originalSubtitleText.length * 0.04}); // Ensure enough time for subtitle typing
+            }
+
+            // Hero buttons fade in and pop
+            tlHero.from('.gsap-hero-btn', {
+                y: 20,
+                opacity: 0,
+                scale: 0.8,
+                duration: 0.6,
+                stagger: 0.15,
+                ease: 'back.out(1.7)'
+            }, "+=0.3"); // Start after all typing
+        }
+
+
+        // Section title animations (more pronounced)
+        gsap.utils.toArray('.gsap-section-title').forEach(element => {
+            gsap.from(element, {
+                y: -80, // Larger vertical movement
+                opacity: 0,
+                duration: 1,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: element,
+                    start: 'top 80%', // Trigger earlier
+                    toggleActions: 'play none none reverse',
+                    // markers: true
+                }
+            });
+        });
+
+        // Sub-title animations within sections (slide in from left)
+        gsap.utils.toArray('.gsap-sub-title').forEach(element => {
+            gsap.from(element, {
+                x: -150, // Larger horizontal movement
+                opacity: 0,
+                duration: 0.9,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: element,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+        });
+
+        // About section image (pop-in with rotation)
+        gsap.from('.gsap-image', {
+            scale: 0.5,
+            opacity: 0,
+            rotation: 15, // Add a slight rotation
+            duration: 1.2,
+            ease: 'back.out(2)', // More bouncy ease
+            scrollTrigger: {
+                trigger: '#about',
+                start: 'top 70%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+
+        // About section text paragraphs (staggered from right)
+        gsap.utils.toArray('.gsap-text').forEach(element => {
+            gsap.from(element, {
+                x: 100,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.2, // Staggered reveal
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: element,
+                    start: 'top 75%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+        });
+
+        // Education timeline line animation (draws from top)
+        gsap.from('.gsap-timeline-line', {
+            scaleY: 0, // Scale from bottom
+            transformOrigin: 'top',
+            duration: 1.5,
+            ease: 'power2.out',
+            scrollTrigger: {
+                trigger: '#education',
+                start: 'top 70%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+
+        // Education timeline items (staggered pop-in from respective sides)
+        gsap.utils.toArray('.gsap-timeline-item').forEach(element => {
+            gsap.from(element, {
+                opacity: 0,
+                x: element.classList.contains('right-timeline') ? 100 : -100, // Slide from right or left
+                scale: 0.8,
+                duration: 1,
+                ease: 'back.out(1.5)',
+                scrollTrigger: {
+                    trigger: element,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+        });
+
+        // Experience items (staggered rotation and fade-in)
+        gsap.utils.toArray('.gsap-experience-item').forEach(element => {
+            gsap.from(element, {
+                opacity: 0,
+                y: 50,
+                rotationX: -90, // Rotate on X axis
+                transformOrigin: 'top center',
+                duration: 0.9,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: element,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse',
+                    // markers: true
+                }
+            });
+        });
+
+        // Skills items (staggered bounce-in)
+        gsap.from('.gsap-skill-item', {
+            scale: 0, // Start from zero scale
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.08, // Faster stagger
+            ease: 'back.out(2)', // Very bouncy
+            scrollTrigger: {
+                trigger: '#skills',
+                start: 'top 75%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+
+        // Portfolio items (staggered fade-in with slight scale)
+        gsap.from('.gsap-portfolio-item', {
+            y: 50,
+            opacity: 0,
+            scale: 0.9,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: 'power3.out',
+            scrollTrigger: {
+                trigger: '#portfolio',
+                start: 'top 80%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+
+        // Contact links (staggered slide-in from bottom with bounce)
+        gsap.from('.gsap-contact-links a', {
+            y: 50,
+            opacity: 0,
+            duration: 0.7,
+            stagger: 0.15,
+            ease: 'back.out(1.7)',
+            scrollTrigger: {
+                trigger: '#contact',
+                start: 'top 75%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+
+        // Contact form (fade-in from bottom)
+        gsap.from('.gsap-contact-form', {
+            y: 80,
+            opacity: 0,
+            duration: 1.2,
+            ease: 'power3.out',
+            scrollTrigger: {
+                trigger: '.gsap-contact-form',
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+
+
+        // ===================================
+        // Simple Particle Generation (for Hero Section)
+        // This is a basic example without external libraries like particles.js
+        // ===================================
+        const particleContainer = document.getElementById('hero-particles-container');
+        const numParticles = 100; // Increased number of particles
+
+        // Get RGB values from CSS variables for dynamic coloring
+        const getCssVarRgb = (varName) => {
+            const hex = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+            if (hex.startsWith('#')) {
+                const r = parseInt(hex.substring(1, 3), 16);
+                const g = parseInt(hex.substring(3, 5), 16);
+                const b = parseInt(hex.substring(5, 7), 16);
+                return `${r}, ${g}, ${b}`;
+            }
+            return '139, 233, 253'; // Default Cyan if not found
+        };
+        // Set RGB CSS variables
+        document.documentElement.style.setProperty('--cyan-rgb', getCssVarRgb('--cyan'));
+        document.documentElement.style.setProperty('--pink-rgb', getCssVarRgb('--pink'));
+        document.documentElement.style.setProperty('--purple-rgb', getCssVarRgb('--purple'));
+        document.documentElement.style.setProperty('--green-rgb', getCssVarRgb('--green'));
+
+
+        function createParticle() {
+            if (!particleContainer) return; // Exit if container not found
+
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+
+            // Random size (5px to 25px)
+            const size = Math.random() * 20 + 5;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+
+            // Random starting position (bottom of screen)
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.bottom = `-50px`; // Start slightly below viewport
+
+            // Random animation duration and delay for variety
+            const duration = Math.random() * 8 + 7; // 7-15 seconds
+            const delay = Math.random() * 5; // 0-5 seconds delay
+            const randomXEnd = (Math.random() - 0.5) * 200; // -100px to 100px horizontal drift
+
+            // Random color from Dracula palette for particles
+            const colors = ['var(--cyan-rgb)', 'var(--pink-rgb)', 'var(--purple-rgb)', 'var(--green-rgb)'];
+            const randomColorRgb = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.backgroundColor = `rgba(${randomColorRgb}, ${Math.random() * 0.4 + 0.1})`; // Vary opacity
+
+            particle.style.animationDuration = `${duration}s`;
+            particle.style.animationDelay = `${delay}s`;
+            particle.style.setProperty('--random-x', `${randomXEnd}px`); // Set custom property for animation
+
+            particleContainer.appendChild(particle);
+
+            // Remove particle after animation ends to prevent memory leak
+            particle.addEventListener('animationend', () => {
+                particle.remove();
+                // Create a new particle to maintain constant number
+                createParticle();
+            });
+        }
+
+        // Generate initial particles
+        for (let i = 0; i < numParticles; i++) {
+            createParticle();
+        }
+    </script>
+
+</body>
+</html>
